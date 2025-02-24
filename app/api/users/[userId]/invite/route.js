@@ -6,7 +6,7 @@ import Tenant from "@/models/Tenant"
 import { sendInvitationEmail } from "@/lib/email"
 import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 
-export async function POST(req, context) {
+export async function POST(req, { params }) {
   try {
     const session = await getServerSession(authOptions)
 
@@ -16,7 +16,7 @@ export async function POST(req, context) {
 
     const { tenantId, role } = await req.json()
 
-    const userId = context.params.userId
+    const { userId } = await params
 
     if (!tenantId || !role || !userId) {
       return NextResponse.json({ message: "Tenant ID, role, and user ID are required" }, { status: 400 })

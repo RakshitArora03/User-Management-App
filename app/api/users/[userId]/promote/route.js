@@ -14,7 +14,10 @@ export async function POST(req, { params }) {
 
     await clientPromise
 
-    const user = await User.findById(params.userId)
+    const { userId } = await params
+
+    const  user = await User.findById(userId)
+    
     if (!user) {
       return NextResponse.json({ message: "User not found" }, { status: 404 })
     }
