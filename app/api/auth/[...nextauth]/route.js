@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs"
 import clientPromise from "@/lib/mongodb"
 import User from "@/models/User"
 
-const handler = NextAuth({
+export const authOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -39,6 +39,7 @@ const handler = NextAuth({
           id: user._id.toString(),
           email: user.email,
           name: user.name,
+          role: user.role,
         }
       },
     }),
@@ -47,41 +48,49 @@ const handler = NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
-  session: {
-    strategy: "jwt",
-  },
-  pages: {
-    signIn: "/auth/signin",
-  },
   callbacks: {
-    async signIn({ user, account, profile }) {
-      if (account.provider === "google") {
-        await clientPromise // Ensure the MongoDB connection is established
-        const existingUser = await User.findOne({ email: profile.email })
-        if (!existingUser) {
-          await User.create({
-            name: profile.name,
-            email: profile.email,
-            image: profile.picture,
-          })
-        }
-      }
-      return true
-    },
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id
+        token.role = user.role
       }
       return token
     },
     async session({ session, token }) {
-      if (session.user) {
-        session.user.id = token.id
-      }
+      session.user.id = token.id
+      session.user.role = token.role
       return session
     },
+    async signIn({ user, account }) {
+      if (account.provider === "google") {
+        const client = await clientPromise
+        const db = client.db()
+        const existingUser = await db.collection("users").findOne({ email: user.email })
+
+        if (!existingUser) {
+          // Create a new user with default role "User"
+          const newUser = await db.collection("users").insertOne({
+            name: user.name,
+            email: user.email,
+            role: "User",
+            emailVerified: user.emailVerified,
+          })
+          user.id = newUser.insertedId.toString()
+          user.role = "User"
+        } else {
+          user.id = existingUser._id.toString()
+          user.role = existingUser.role
+        }
+      }
+      return true
+    },
   },
-})
+  pages: {
+    signIn: "/auth/signin",
+  },
+}
+
+const handler = NextAuth(authOptions)
 
 export { handler as GET, handler as POST }
 

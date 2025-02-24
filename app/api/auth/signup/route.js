@@ -27,6 +27,7 @@ export async function POST(req) {
       email,
       password: hashedPassword,
       emailVerified: false,
+      role: "User", // Assign 'User' role by default
     })
 
     // Generate verification token

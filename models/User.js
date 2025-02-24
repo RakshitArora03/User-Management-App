@@ -14,6 +14,16 @@ const UserSchema = new mongoose.Schema(
       default: false,
     },
     image: String,
+    role: {
+      type: String,
+      default: "User",
+      enum: ["User", "Manager", "Admin"],
+    },
+    tenantId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Tenant",
+    },
+    image: String,
     resetToken: String,
     resetTokenExpiry: Date,
   },

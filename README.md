@@ -1,36 +1,109 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# User Management App
 
-## Getting Started
+This is a comprehensive user management application built with Next.js, featuring role-based access control, tenant management, and user authentication.
 
-First, run the development server:
+## Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Node.js (v14 or later)
+- npm or yarn
+- MongoDB database
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Setup Instructions
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+1. Clone the repository:
+   \`\`\`
+   git clone https://github.com/RakshitArora03/User-Management-App.git
+   cd User-Management-App
+   \`\`\`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. Install dependencies:
+   \`\`\`
+   npm install
+   \`\`\`
+   or if you're using yarn:
+   \`\`\`
+   yarn install
+   \`\`\`
 
-## Learn More
+3. Create a \`.env.local\` file in the root directory and add the following environment variables:
 
-To learn more about Next.js, take a look at the following resources:
+   \`\`\`
+   # MongoDB connection string
+   MONGODB_URI=your_mongodb_connection_string
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   # NextAuth secret (you can generate one using `openssl rand -base64 32`)
+   NEXTAUTH_SECRET=your_nextauth_secret
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   # NextAuth URL (use http://localhost:3000 for local development)
+   NEXTAUTH_URL=http://localhost:3000
 
-## Deploy on Vercel
+   # Google OAuth credentials (if using Google sign-in)
+   GOOGLE_CLIENT_ID=your_google_client_id
+   GOOGLE_CLIENT_SECRET=your_google_client_secret
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   # Email server settings (for sending verification emails)
+   EMAIL_SERVER_HOST=your_smtp_host
+   EMAIL_SERVER_PORT=your_smtp_port
+   EMAIL_SERVER_USER=your_smtp_username
+   EMAIL_SERVER_PASSWORD=your_smtp_password
+   EMAIL_FROM=noreply@yourdomain.com
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   # JWT secret for email verification tokens
+   JWT_SECRET=your_jwt_secret
+
+   # Secret for seeding admin user (change this to a secure value)
+   SEED_SECRET=your_seed_secret
+   \`\`\`
+
+   Replace the placeholder values with your actual configuration.
+
+4. Set up the database:
+   - Ensure your MongoDB instance is running.
+   - The application will automatically create the necessary collections when it first runs.
+
+5. Seed the admin user:
+   Run the following command to create the initial admin user:
+   \`\`\`
+   npm run seed-admin
+   \`\`\`
+   or with yarn:
+   \`\`\`
+   yarn seed-admin
+   \`\`\`
+
+6. Run the development server:
+   \`\`\`
+   npm run dev
+   \`\`\`
+   or with yarn:
+   \`\`\`
+   yarn dev
+   \`\`\`
+
+7. Open your browser and navigate to \`http://localhost:3000\`. You should see the application running.
+
+## Default Admin Credentials
+
+After seeding the admin user, you can log in with the following credentials:
+
+- Email: admin@example.com
+- Password: secureAdminPassword123!
+
+Make sure to change this password after your first login.
+
+## Features
+
+- User authentication (sign up, sign in, password reset)
+- Role-based access control (Admin, Manager, User)
+- Tenant management
+- User management (invite, promote, demote, remove)
+- Responsive design
+
+## Contributing
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+
