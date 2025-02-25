@@ -19,7 +19,10 @@ export default function TenantsPage({ user }) {
   const [isLoading, setIsLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState("")
   const [showJoinDialog, setShowJoinDialog] = useState(false)
-  const [tenantCode, setTenantCode] = useState("") // Renamed from inviteCode
+  const [tenantCode, setTenantCode] = useState("")
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+  const [tenantToDelete, setTenantToDelete] = useState(null)
+  const [deleteConfirmation, setDeleteConfirmation] = useState("")
 
   const fetchTenants = useCallback(async () => {
     try {
@@ -46,7 +49,7 @@ export default function TenantsPage({ user }) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ tenantCode }), // Changed from inviteCode
+        body: JSON.stringify({ tenantCode }),
       })
 
       const data = await response.json()
@@ -54,14 +57,50 @@ export default function TenantsPage({ user }) {
       if (response.ok) {
         toast.success(data.message)
         setShowJoinDialog(false)
-        setTenantCode("") // Reset the input
-        await fetchTenants() // Refresh the tenants list
+        setTenantCode("")
+        await fetchTenants()
       } else {
         toast.error(data.message || "Failed to join tenant")
       }
     } catch (error) {
       console.error("Error joining tenant:", error)
       toast.error("An error occurred while joining the tenant")
+    }
+  }
+
+  const handleEditTenant = (tenantId) => {
+    router.push(`/pages/tenants/edit/${tenantId}`)
+  }
+
+  const handleDeleteTenant = (tenant) => {
+    setTenantToDelete(tenant)
+    setShowDeleteDialog(true)
+  }
+
+  const confirmDeleteTenant = async () => {
+    if (deleteConfirmation !== tenantToDelete.name) {
+      toast.error("Tenant name doesn't match. Please try again.")
+      return
+    }
+
+    try {
+      const response = await fetch(`/api/tenants/${tenantToDelete._id}`, {
+        method: "DELETE",
+      })
+
+      if (response.ok) {
+        toast.success("Tenant deleted successfully")
+        setShowDeleteDialog(false)
+        setTenantToDelete(null)
+        setDeleteConfirmation("")
+        await fetchTenants()
+      } else {
+        const data = await response.json()
+        toast.error(data.message || "Failed to delete tenant")
+      }
+    } catch (error) {
+      console.error("Error deleting tenant:", error)
+      toast.error("An error occurred while deleting the tenant")
     }
   }
 
@@ -156,9 +195,12 @@ export default function TenantsPage({ user }) {
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                              <DropdownMenuItem>View Details</DropdownMenuItem>
-                              <DropdownMenuItem>Edit Tenant</DropdownMenuItem>
-                              <DropdownMenuItem className="text-red-600">Delete Tenant</DropdownMenuItem>
+                              <DropdownMenuItem onClick={() => handleEditTenant(tenant._id)}>
+                                Edit Tenant
+                              </DropdownMenuItem>
+                              <DropdownMenuItem onClick={() => handleDeleteTenant(tenant)} className="text-red-600">
+                                Delete Tenant
+                              </DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
                         </td>
@@ -212,6 +254,35 @@ export default function TenantsPage({ user }) {
             </Button>
             <Button onClick={handleJoinTenant} disabled={!tenantCode.trim()}>
               Join Tenant
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Delete Tenant</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <p>Are you sure you want to delete the tenant "{tenantToDelete?.name}"? This action cannot be undone.</p>
+            <p>Please type the tenant name to confirm deletion:</p>
+            <Input
+              value={deleteConfirmation}
+              onChange={(e) => setDeleteConfirmation(e.target.value)}
+              placeholder="Enter tenant name"
+            />
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowDeleteDialog(false)}>
+              Cancel
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={confirmDeleteTenant}
+              disabled={deleteConfirmation !== tenantToDelete?.name}
+            >
+              Delete Tenant
             </Button>
           </DialogFooter>
         </DialogContent>
