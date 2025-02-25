@@ -4,8 +4,9 @@ import { useEffect, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import toast from "react-hot-toast"
+import { Suspense } from "react";
 
-export default function VerifyEmail() {
+function VerifyEmailForm() {
   const [verifying, setVerifying] = useState(true)
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -56,3 +57,10 @@ export default function VerifyEmail() {
   )
 }
 
+export default function VerifyEmail() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <VerifyEmailForm />
+    </Suspense>
+  );
+}
