@@ -8,12 +8,13 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import toast from "react-hot-toast"
+import { Suspense } from "react";
 
 const schema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
 })
 
-export default function ForgotPassword() {
+function ForgotPasswordForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const {
@@ -74,3 +75,10 @@ export default function ForgotPassword() {
   )
 }
 
+export default function ForgotPassword() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ForgotPasswordForm />
+    </Suspense>
+  );
+}
