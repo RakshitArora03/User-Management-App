@@ -57,6 +57,7 @@ function ResetPasswordForm() {
         toast.error(errorData.message || "An error occurred while resetting your password")
       }
     } catch (error) {
+      console.log(error)
       toast.error("An error occurred while resetting your password")
     } finally {
       setIsResetting(false)

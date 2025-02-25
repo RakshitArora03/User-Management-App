@@ -4,7 +4,7 @@ import clientPromise from "@/lib/mongodb"
 import User from "@/models/User"
 import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 
-export async function GET(req) {
+export async function GET() {
   try {
     const session = await getServerSession(authOptions)
 

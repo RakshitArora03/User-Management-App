@@ -27,7 +27,7 @@ const schema = z
 
 export default function SignUp() {
   const router = useRouter()
-  const { data: session, status } = useSession()
+  const { data:  status } = useSession()
   const {
     register,
     handleSubmit,
@@ -61,6 +61,7 @@ export default function SignUp() {
         toast.error(errorData.message || "An error occurred during registration")
       }
     } catch (err) {
+      console.log(err)
       toast.error("An error occurred during registration")
     }
   }

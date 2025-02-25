@@ -40,6 +40,7 @@ export default function ForgotPassword() {
         toast.error(errorData.message || "An error occurred while processing your request")
       }
     } catch (error) {
+      console.log(error)
       toast.error("An error occurred while processing your request")
     } finally {
       setIsSubmitting(false)

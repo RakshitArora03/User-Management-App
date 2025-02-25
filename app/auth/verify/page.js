@@ -34,6 +34,7 @@ export default function VerifyEmail() {
         toast.error(data.message)
       }
     } catch (error) {
+      console.log(error)
       toast.error("An error occurred during email verification")
     } finally {
       setVerifying(false)
