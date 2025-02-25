@@ -13,8 +13,8 @@ export async function DELETE(req, { params }) {
     }
 
     await clientPromise
-
-    const user = await User.findById(params.userId)
+    const { userId } = await params
+    const user = await User.findById(userId)
     if (!user) {
       return NextResponse.json({ message: "User not found" }, { status: 404 })
     }
@@ -23,7 +23,7 @@ export async function DELETE(req, { params }) {
       return NextResponse.json({ message: "Cannot delete admin users" }, { status: 400 })
     }
 
-    await User.findByIdAndDelete(params.userId)
+    await User.findByIdAndDelete(userId)
 
     return NextResponse.json({ message: "User deleted successfully" })
   } catch (error) {

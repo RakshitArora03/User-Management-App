@@ -82,7 +82,7 @@ export default function DashboardClient({ user }) {
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
           <h2 className="text-2xl font-semibold mb-2">Welcome to the Dashboard</h2>
-          <p className="text-gray-500 mb-4">You haven't joined a tenant yet.</p>
+          <p className="text-gray-500 mb-4">You haven&apos;t joined a tenant yet.</p>
           <Button onClick={() => setShowJoinDialog(true)}>Join a Tenant</Button>
         </div>
       </div>
