@@ -151,8 +151,8 @@ export default function TenantsPage({ user }) {
                         <td className="p-4 text-right">
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" className="h-8 w-8 p-0">
-                                <MoreVertical className="h-4 w-4" />
+                              <Button size="xl" variant="secondary" className="h-8 w-8 p-0">
+                                <MoreVertical className="h-5 w-5" />
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">

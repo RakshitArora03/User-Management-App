@@ -56,7 +56,7 @@ export default function UserDashboard({ user }) {
       ) : (
         <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-lg">
           <p className="text-yellow-700">
-            <strong>Notice:</strong> You haven't joined any tenants yet.
+            <strong>Notice:</strong> You haven&apos;t joined any tenants yet.
           </p>
           <Button className="mt-2" onClick={() => router.push("/pages/tenants")}>
             Join a Tenant

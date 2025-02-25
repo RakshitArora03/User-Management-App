@@ -47,31 +47,6 @@ export default function AdminDashboard({ user }) {
         </Button>
       </div>
 
-      <div className="bg-white shadow rounded-lg p-6">
-        <h2 className="text-xl font-semibold mb-4">Admin Controls</h2>
-        <ul className="space-y-2">
-          <li>
-            <Button variant="outline" className="w-full justify-start">
-              Manage Users
-            </Button>
-          </li>
-          <li>
-            <Button variant="outline" className="w-full justify-start">
-              Manage Tenants
-            </Button>
-          </li>
-          <li>
-            <Button variant="outline" className="w-full justify-start">
-              System Settings
-            </Button>
-          </li>
-          <li>
-            <Button variant="outline" className="w-full justify-start">
-              View Logs
-            </Button>
-          </li>
-        </ul>
-      </div>
     </div>
   )
 }

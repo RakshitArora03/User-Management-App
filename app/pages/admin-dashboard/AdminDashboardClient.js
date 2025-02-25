@@ -55,27 +55,7 @@ export default function AdminDashboardClient({ user }) {
         </div>
       </div>
 
-      <div className="bg-white shadow rounded-lg p-6">
-        <h2 className="text-xl font-semibold mb-4">Admin Controls</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <button className="p-4 text-left rounded-lg border hover:bg-gray-50">
-            <h3 className="font-medium">Manage Users</h3>
-            <p className="text-sm text-gray-500">Add, remove, and modify user accounts</p>
-          </button>
-          <button className="p-4 text-left rounded-lg border hover:bg-gray-50">
-            <h3 className="font-medium">Manage Tenants</h3>
-            <p className="text-sm text-gray-500">Configure and oversee tenant settings</p>
-          </button>
-          <button className="p-4 text-left rounded-lg border hover:bg-gray-50">
-            <h3 className="font-medium">System Settings</h3>
-            <p className="text-sm text-gray-500">Adjust global system configurations</p>
-          </button>
-          <button className="p-4 text-left rounded-lg border hover:bg-gray-50">
-            <h3 className="font-medium">View Logs</h3>
-            <p className="text-sm text-gray-500">Monitor system activity and events</p>
-          </button>
-        </div>
-      </div>
+      
     </div>
   )
 }
